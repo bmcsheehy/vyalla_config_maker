@@ -18,9 +18,6 @@ my $result;
 my $sl_api_user = undef;
 my $sl_api_pass = undef;
 
-my $sl_vlan_endpoint = 'api.softlayer.com/rest/v3/SoftLayer_Account/getNetworkVlans.json';
-my $sl_subnet_endpoint = 'api.softlayer.com/rest/v3/SoftLayer_Network_Vlan/1098713/getSubnets.json';
-
 
 my @subnet_types = ('PRIMARY',
                    'ADDITIONAL_PRIMARY',
