@@ -46,7 +46,7 @@ sub get_subnet_details {
     my $api_pass = shift;
     my $sl_vlan_id = shift;
     my $ua = LWP::UserAgent->new( ssl_opts => { verify_hostname => 0 } );
-    my $sl_vlan_endpoint = "api.softlayer.com/rest/v3/SoftLayer_Network_Vlan/$sl_vlan_id/getSubnets.json";
+    my $sl_vlan_endpoint = sprintf("api.softlayer.com/rest/v3/SoftLayer_Network_Vlan/%d/getSubnets.json", $sl_vlan_id);
     my $vlan_endpoint = "https://$api_user:$api_pass" . '@' . "$sl_vlan_endpoint";
     my $response = $ua->get($vlan_endpoint);
     if ( $response->is_success ) {
