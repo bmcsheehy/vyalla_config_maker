@@ -66,9 +66,9 @@ sub parse_config {
     @config_content = split "\n", $config_template;
     print "\n## Auto Generated $conf_type Configuration ##\n\n";
     foreach my $line (@config_content) {
-	  @matches = ($line =~ /<(\S+)>/g);
+        @matches = ($line =~ /<(\S+)>/g);
         for(@matches) {
-    	      my $replace = $resp_values{$_};
+            my $replace = $resp_values{$_};
             $line =~ s/<$_>/$replace/;
         }
         print "$line\n";
