@@ -218,6 +218,7 @@ if($mode == 2) {
     }
 }
 if($mode == 3) {
+
     $conf_type = 'VLAN';
 
     print "Enter SoftLayer API Username: ";
@@ -231,31 +232,31 @@ if($mode == 3) {
     my @api_vlans = @{ $vlan_json_decoded };
     my $counter = 10;
 
-        foreach my $f (@api_vlans) {
-            #print $f->{"id"} . "\n";
-            my $subnet_api_response = get_subnet_details($sl_api_user,
+    foreach my $f (@api_vlans) {
+        #print $f->{"id"} . "\n";
+        my $subnet_api_response = get_subnet_details($sl_api_user,
                                                          $sl_api_pass,
                                                          $f->{"id"});
-            my $subnet_json_decoded = decode_json($subnet_api_response);
-            my @api_subnets = @{ $subnet_json_decoded };
-                foreach my $x (@api_subnets) {
+        my $subnet_json_decoded = decode_json($subnet_api_response);
+        my @api_subnets = @{ $subnet_json_decoded };
+        foreach my $x (@api_subnets) {
 
-                    if($x->{"subnetType"} eq 'PRIMARY') {
-                        $resp_values{vif_id} = $f->{"id"};
+            if($x->{"subnetType"} eq 'PRIMARY') {
+                $resp_values{vif_id} = $f->{"id"};
 
-                        if($x->{"addressSpace"} eq 'PRIVATE') {
-                            $resp_values{vif_interface} = 'bond0';
-                        }
-                        else {
-                            $resp_values{vif_interface} = 'bond1';
-                        }
-                        $resp_values{vif_address} = $x->{networkIdentifier} .
+                if($x->{"addressSpace"} eq 'PRIVATE') {
+                    $resp_values{vif_interface} = 'bond0';
+                }
+                else {
+                    $resp_values{vif_interface} = 'bond1';
+                }
+                $resp_values{vif_address} = $x->{networkIdentifier} .
                                               '/' . $x->{"cidr"};
 
-                        $counter = $counter + 10;
-                        $resp_values{counter} = $counter;
-                        parse_config($vlan_config_template, \%resp_values, $conf_type);
-                    }
-                }
+                $counter = $counter + 10;
+                $resp_values{counter} = $counter;
+                parse_config($vlan_config_template, \%resp_values, $conf_type);
+            }
         }
+    }
 }
